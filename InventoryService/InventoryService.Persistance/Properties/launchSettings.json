@@ -1,0 +1,10 @@
+{
+  "profiles": {
+    "InventoryService.Persistance": {
+      "commandName": "Project"
+    },
+    "Container (Dockerfile)": {
+      "commandName": "Docker"
+    }
+  }
+}
