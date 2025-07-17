@@ -1,0 +1,11 @@
+.vs/
+bin/
+obj/
+*.user
+*.suo
+*.userprefs
+*.log
+*.DS_Store
+docker-compose.override.yml
+appsettings.Development.json
+secrets.json
