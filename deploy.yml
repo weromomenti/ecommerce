@@ -1,0 +1,40 @@
+name: Build and Deploy to Azure Container Apps
+
+on:
+  push:
+    branches: [ main ]
+
+env:
+  REGISTRY: ecommercecontainerregiry.azurecr.io
+  RESOURCE_GROUP: Learning
+  CONTAINER_APP_ENV: az204-demo-env
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v4
+
+    - name: Log in to Azure
+      uses: azure/login@v1
+      with:
+        creds: ${{ secrets.AZURE_CREDENTIALS }}
+
+    - name: Log in to ACR
+      uses: azure/docker-login@v1
+      with:
+        login-server: ${{ env.REGISTRY }}
+
+    - name: Build and push OrderService image
+      run: |
+        docker build -t $REGISTRY/orderservice:${{ github.sha }} ./OrderService
+        docker push $REGISTRY/orderservice:${{ github.sha }}
+
+    - name: Deploy to Azure Container App
+      uses: azure/CLI@v1
+      with:
+        inlineScript: |
+          az containerapp update \
+            --name orderservice \
+            --resource-group $RESOURCE_GROUP \
+            --image $REGISTRY/orderservice:${{ github.sha }}
