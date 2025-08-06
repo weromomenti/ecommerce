@@ -42,7 +42,7 @@ jobs:
           registryPassword: ${{ secrets.ORDERSERVICE_REGISTRY_PASSWORD }}
           containerAppName: orderservice
           resourceGroup: ecommerce
-          imageToBuild: gtsereteli470/orderservice:${{ github.sha }}
+          imageToBuild: tseromomenti/orderservice:${{ github.sha }}
           _buildArgumentsKey_: |
             _buildArgumentsValues_
 
