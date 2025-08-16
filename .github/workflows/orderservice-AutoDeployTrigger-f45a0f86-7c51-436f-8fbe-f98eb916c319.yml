@@ -34,8 +34,8 @@ jobs:
       - name: Build and push container image to registry
         uses: azure/container-apps-deploy-action@v2
         with:
-          appSourcePath: ${{ github.workspace }}
-          _dockerfilePathKey_: OrderService/Dockerfile
+          appSourcePath: ./OrderService
+          dockerfilePath: Dockerfile
           _targetLabelKey_: _targetLabel_
           registryUrl: docker.io
           registryUsername: ${{ secrets.ORDERSERVICE_REGISTRY_USERNAME }}
@@ -45,6 +45,7 @@ jobs:
           imageToBuild: tseromomenti/orderservice:${{ github.sha }}
           _buildArgumentsKey_: |
             _buildArgumentsValues_
+
 
 
 
