@@ -18,10 +18,6 @@ namespace OrderService.Controllers
         {
             var allOrders = await orderRepository.GetAllOrders();
 
-            if (!allOrders.Any())
-            {
-                return NotFound("No orders found");
-            }
             return Ok(allOrders);
         }
         [HttpPost]

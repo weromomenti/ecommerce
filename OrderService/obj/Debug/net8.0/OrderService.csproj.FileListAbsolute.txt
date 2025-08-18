@@ -1,6 +1,5 @@
 C:\Users\gtsereteli\source\repos\ECommerceOrderingSystem\OrderService\bin\Debug\net8.0\appsettings.Development.json
 C:\Users\gtsereteli\source\repos\ECommerceOrderingSystem\OrderService\bin\Debug\net8.0\appsettings.json
-C:\Users\gtsereteli\source\repos\ECommerceOrderingSystem\OrderService\bin\Debug\net8.0\appsettings.Release.json
 C:\Users\gtsereteli\source\repos\ECommerceOrderingSystem\OrderService\bin\Debug\net8.0\OrderService.staticwebassets.endpoints.json
 C:\Users\gtsereteli\source\repos\ECommerceOrderingSystem\OrderService\bin\Debug\net8.0\OrderService.exe
 C:\Users\gtsereteli\source\repos\ECommerceOrderingSystem\OrderService\bin\Debug\net8.0\OrderService.deps.json
@@ -189,3 +188,14 @@ C:\Users\gtsereteli\source\repos\ECommerceOrderingSystem\OrderService\bin\Debug\
 C:\Users\gtsereteli\source\repos\ECommerceOrderingSystem\OrderService\obj\Debug\net8.0\staticwebassets.upToDateCheck.txt
 C:\Users\gtsereteli\source\repos\ECommerceOrderingSystem\OrderService\bin\Debug\net8.0\Polly.dll
 C:\Users\gtsereteli\source\repos\ECommerceOrderingSystem\OrderService\bin\Debug\net8.0\Polly.Core.dll
+C:\Users\gtsereteli\source\repos\ECommerceOrderingSystem\OrderService\obj\Debug\net8.0\OrderService.sourcelink.json
+C:\Users\gtsereteli\source\repos\ECommerceOrderingSystem\OrderService\bin\Debug\net8.0\Azure.Core.Amqp.dll
+C:\Users\gtsereteli\source\repos\ECommerceOrderingSystem\OrderService\bin\Debug\net8.0\Azure.Messaging.ServiceBus.dll
+C:\Users\gtsereteli\source\repos\ECommerceOrderingSystem\OrderService\bin\Debug\net8.0\MassTransit.dll
+C:\Users\gtsereteli\source\repos\ECommerceOrderingSystem\OrderService\bin\Debug\net8.0\MassTransit.Abstractions.dll
+C:\Users\gtsereteli\source\repos\ECommerceOrderingSystem\OrderService\bin\Debug\net8.0\MassTransit.Azure.ServiceBus.Core.dll
+C:\Users\gtsereteli\source\repos\ECommerceOrderingSystem\OrderService\bin\Debug\net8.0\MassTransit.RabbitMqTransport.dll
+C:\Users\gtsereteli\source\repos\ECommerceOrderingSystem\OrderService\bin\Debug\net8.0\Microsoft.Azure.Amqp.dll
+C:\Users\gtsereteli\source\repos\ECommerceOrderingSystem\OrderService\bin\Debug\net8.0\Microsoft.EntityFrameworkCore.InMemory.dll
+C:\Users\gtsereteli\source\repos\ECommerceOrderingSystem\OrderService\bin\Debug\net8.0\appsettings.Staging.json
+C:\Users\gtsereteli\source\repos\ECommerceOrderingSystem\OrderService\bin\Debug\net8.0\appsettings.Production.json

@@ -17,3 +17,4 @@ C:\Users\gtsereteli\source\repos\ECommerceOrderingSystem\InventoryService\Invent
 C:\Users\gtsereteli\source\repos\ECommerceOrderingSystem\InventoryService\InventoryService.Business\obj\Debug\net8.0\InventoryService.Business.pdb
 C:\Users\gtsereteli\source\repos\ECommerceOrderingSystem\InventoryService\InventoryService.Business\obj\Debug\net8.0\InventoryService.Business.genruntimeconfig.cache
 C:\Users\gtsereteli\source\repos\ECommerceOrderingSystem\InventoryService\InventoryService.Business\obj\Debug\net8.0\ref\InventoryService.Business.dll
+C:\Users\gtsereteli\source\repos\ECommerceOrderingSystem\InventoryService\InventoryService.Business\obj\Debug\net8.0\InventoryService.Business.sourcelink.json

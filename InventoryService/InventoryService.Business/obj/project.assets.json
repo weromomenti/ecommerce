@@ -5694,8 +5694,8 @@
       "RabbitMQ.Client >= 7.1.2",
       "Serilog.AspNetCore >= 9.0.0",
       "Serilog.Sinks.Seq >= 9.0.0",
-      "Yarp.ReverseProxy >= 2.3.0",
-      "stackexchange.redis >= 2.8.41"
+      "StackExchange.Redis >= 2.8.41",
+      "Yarp.ReverseProxy >= 2.3.0"
     ]
   },
   "packageFolders": {
@@ -5788,13 +5788,13 @@
             "target": "Package",
             "version": "[9.0.0, )"
           },
+          "StackExchange.Redis": {
+            "target": "Package",
+            "version": "[2.8.41, )"
+          },
           "Yarp.ReverseProxy": {
             "target": "Package",
             "version": "[2.3.0, )"
-          },
-          "stackexchange.redis": {
-            "target": "Package",
-            "version": "[2.8.41, )"
           }
         },
         "imports": [
@@ -5813,7 +5813,7 @@
             "privateAssets": "all"
           }
         },
-        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\9.0.302/PortableRuntimeIdentifierGraph.json"
+        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\9.0.304/PortableRuntimeIdentifierGraph.json"
       }
     }
   }

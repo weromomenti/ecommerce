@@ -1,12 +1,12 @@
 using FluentValidation;
+using MassTransit;
 using Microsoft.EntityFrameworkCore;
-using OrderService.Controllers;
 using OrderService.Entities;
 using OrderService.Infrustructure;
 using OrderService.Interfaces;
+using OrderService.Messaging;
 using OrderService.Repositories;
 using OrderService.Resilience;
-using Polly.CircuitBreaker;
 using Serilog;
 using System.Text.Json.Serialization;
 
@@ -20,11 +20,50 @@ namespace OrderService
 
             // Add services to the container.
 
-            builder.Services.AddDbContext<OrderDbContext>(options =>
-                options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
+            if (builder.Environment.IsDevelopment())
+            {
+                builder.Services.AddDbContext<OrderDbContext>(options =>
+                    options.UseInMemoryDatabase("OrderDb"));
+
+                builder.Services.AddMassTransit(x =>
+                {
+                    x.UsingInMemory((context, cfg) =>
+                    {
+                        cfg.ConfigureEndpoints(context);
+                    });
+                });
+            }
+            else if (builder.Environment.IsStaging())
+            {
+                builder.Services.AddDbContext<OrderDbContext>(options =>
+                    options.UseSqlServer(builder.Configuration.GetConnectionString("DbConnection")));
+
+                builder.Services.AddMassTransit(x =>
+                {
+                    x.UsingRabbitMq((context, cfg) =>
+                    {
+                        cfg.Host(builder.Configuration.GetConnectionString("MessageBrokerConnection"));
+                        cfg.ConfigureEndpoints(context);
+                    });
+                });
+            }
+            else if (builder.Environment.IsProduction())
+            {
+                builder.Services.AddDbContext<OrderDbContext>(options =>
+                    options.UseAzureSql(builder.Configuration.GetConnectionString("DbConnection")));
+
+                builder.Services.AddMassTransit(x =>
+                {
+                    x.UsingAzureServiceBus((context, cfg) =>
+                    {
+                        cfg.Host(builder.Configuration.GetConnectionString("MessagingHost"));
+                        cfg.ConfigureEndpoints(context);
+                    });
+                });
+            };
 
             builder.Services.AddTransient<IValidator<OrderRequest>, OrderRequestValidator>();
-            builder.Services.AddSingleton<IOrderProducer, OrderProducer>();
+            builder.Services.AddScoped<IOrderProducer, OrderProducer>();
             builder.Services.AddScoped<IOrderRepository, OrderRepository>();
             builder.Services.AddSingleton(ResiliencePolicyHelper.GetCircuitBreakerPolicy());
 
@@ -50,7 +89,10 @@ namespace OrderService
             using (var scope = app.Services.CreateScope())
             {
                 var dbContext = scope.ServiceProvider.GetRequiredService<OrderDbContext>();
-                dbContext.Database.Migrate();
+                if (dbContext.Database.IsRelational())
+                {
+                    dbContext.Database.Migrate();
+                }
             }
 
             // Configure the HTTP request pipeline.

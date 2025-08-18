@@ -17,8 +17,8 @@
           "RabbitMQ.Client": "7.1.2",
           "Serilog.AspNetCore": "9.0.0",
           "Serilog.Sinks.Seq": "9.0.0",
-          "Yarp.ReverseProxy": "2.3.0",
-          "StackExchange.Redis": "2.8.41"
+          "StackExchange.Redis": "2.8.41",
+          "Yarp.ReverseProxy": "2.3.0"
         },
         "runtime": {
           "InventoryService.Business.dll": {}
