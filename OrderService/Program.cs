@@ -10,6 +10,7 @@ using OrderService.Resilience;
 using Serilog;
 using Serilog.Core;
 using System.Text.Json.Serialization;
+using Azure.Identity;
 
 namespace OrderService
 {
@@ -58,7 +59,10 @@ namespace OrderService
                 {
                     x.UsingAzureServiceBus((context, cfg) =>
                     {
-                        cfg.Host(builder.Configuration.GetConnectionString("MessageBrokerConnection"));
+                        cfg.Host("ecommerceazure.servicebus.windows.net", h =>
+                        {
+                            h.TokenCredential = new DefaultAzureCredential();
+                        });
                         cfg.ConfigureEndpoints(context);
                     });
                 });

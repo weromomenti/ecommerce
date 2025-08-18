@@ -36,7 +36,8 @@
     "Projects": [
       {
         "Path": "OrderService\\OrderService.csproj",
-        "Action": "Start"
+        "Action": "Start",
+        "DebugTarget": "Staging"
       }
     ]
   }
