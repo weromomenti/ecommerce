@@ -56,7 +56,7 @@ namespace OrderService
                 {
                     x.UsingAzureServiceBus((context, cfg) =>
                     {
-                        cfg.Host(builder.Configuration.GetConnectionString("MessagingHost"));
+                        cfg.Host(builder.Configuration.GetConnectionString("MessageBrokerConnection"));
                         cfg.ConfigureEndpoints(context);
                     });
                 });
