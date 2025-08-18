@@ -8,6 +8,7 @@ using OrderService.Messaging;
 using OrderService.Repositories;
 using OrderService.Resilience;
 using Serilog;
+using Serilog.Core;
 using System.Text.Json.Serialization;
 
 namespace OrderService
@@ -20,6 +21,7 @@ namespace OrderService
 
             // Add services to the container.
 
+            Console.WriteLine("Using environment: {0}", builder.Environment.EnvironmentName);
             if (builder.Environment.IsDevelopment())
             {
                 builder.Services.AddDbContext<OrderDbContext>(options =>
