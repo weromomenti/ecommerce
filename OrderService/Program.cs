@@ -11,6 +11,7 @@ using Serilog;
 using Serilog.Core;
 using System.Text.Json.Serialization;
 using Azure.Identity;
+using Serilog.Exceptions;
 
 namespace OrderService
 {
@@ -66,6 +67,17 @@ namespace OrderService
                         cfg.ConfigureEndpoints(context);
                     });
                 });
+
+                builder.Host.UseSerilog((context, lc) =>
+                {
+                    lc.ReadFrom.Configuration(context.Configuration)
+                    .Enrich.FromLogContext()
+                    .Enrich.WithExceptionDetails()
+                    .Enrich.WithProperty("ServiceName", "OrderService")
+                    .WriteTo.Console();
+                });
+
+                builder.Services.AddApplicationInsightsTelemetry();
             };
 
             builder.Services.AddTransient<IValidator<OrderRequest>, OrderRequestValidator>();
@@ -91,6 +103,8 @@ namespace OrderService
                 configuration.ReadFrom.Configuration(context.Configuration));
 
             var app = builder.Build();
+
+            app.UseSerilogRequestLogging();
 
             using (var scope = app.Services.CreateScope())
             {
