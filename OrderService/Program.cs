@@ -54,7 +54,9 @@ namespace OrderService
             else if (builder.Environment.IsProduction())
             {
                 builder.Services.AddDbContext<OrderDbContext>(options =>
-                    options.UseAzureSql(builder.Configuration.GetConnectionString("DbConnection")));
+                {
+                    options.UseAzureSql(builder.Configuration.GetConnectionString("DbConnection"));
+                });
 
                 builder.Services.AddMassTransit(x =>
                 {
