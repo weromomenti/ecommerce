@@ -63,10 +63,7 @@ namespace OrderService
                 {
                     x.UsingAzureServiceBus((context, cfg) =>
                     {
-                        cfg.Host(builder.Configuration.GetConnectionString("MessageBrokerConnection"), h =>
-                        {
-                            h.TokenCredential = new DefaultAzureCredential();
-                        });
+                        cfg.Host(builder.Configuration.GetConnectionString("MessageBrokerConnection"));
                         cfg.ConfigureEndpoints(context);
                     });
                 });
