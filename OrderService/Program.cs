@@ -60,10 +60,22 @@ namespace OrderService
                 {
                     x.UsingAzureServiceBus((context, cfg) =>
                     {
-                        cfg.Host("ecommerceazure.servicebus.windows.net", h =>
+                        var sbAuth = builder.Configuration["Messaging:Auth"]; // "ManagedIdentity" (default) or "ConnectionString"
+
+                        if (string.Equals(sbAuth, "ConnectionString", StringComparison.OrdinalIgnoreCase))
                         {
-                            h.TokenCredential = new DefaultAzureCredential();
-                        });
+                            // Local prod: use SAS connection string from User Secrets
+                            var cs = builder.Configuration.GetConnectionString("MessageBrokerConnection");
+                            cfg.Host(cs);
+                        }
+                        else
+                        {
+                            // Cloud prod: Managed Identity (DefaultAzureCredential)
+                            cfg.Host("ecommerceazure.servicebus.windows.net", h =>
+                            {
+                                h.TokenCredential = new DefaultAzureCredential();
+                            });
+                        }
                         cfg.ConfigureEndpoints(context);
                     });
                 });

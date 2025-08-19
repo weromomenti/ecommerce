@@ -46,6 +46,14 @@
         "ASPNETCORE_ENVIRONMENT": "Production"
       }
     },
+    "AzureLocal": {
+      "commandName": "Project",
+      "dotnetRunMessages": true,
+      "environmentVariables": {
+        "ASPNETCORE_ENVIRONMENT": "Production",
+        "Messaging__Auth": "ConnectionString"
+      }
+    },
     "IIS Express": {
       "commandName": "IISExpress",
       "launchBrowser": true,
