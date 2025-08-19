@@ -24,6 +24,7 @@ namespace OrderService
             // Add services to the container.
 
             Console.WriteLine("Using environment: {0}", builder.Environment.EnvironmentName);
+            Console.WriteLine("Connection Strings: DB: {0}, Messages: {1}", builder.Configuration.GetConnectionString("DbConnection"), builder.Configuration.GetConnectionString("MessageBrokerConnection"));
             if (builder.Environment.IsDevelopment())
             {
                 builder.Services.AddDbContext<OrderDbContext>(options =>
