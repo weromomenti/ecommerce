@@ -62,22 +62,10 @@ namespace OrderService
                 {
                     x.UsingAzureServiceBus((context, cfg) =>
                     {
-                        var sbAuth = builder.Configuration["Messaging:Auth"]; // "ManagedIdentity" (default) or "ConnectionString"
-
-                        if (string.Equals(sbAuth, "ConnectionString", StringComparison.OrdinalIgnoreCase))
+                        cfg.Host(builder.Configuration.GetConnectionString("MessageBrokerConnection"), h =>
                         {
-                            // Local prod: use SAS connection string from User Secrets
-                            var cs = builder.Configuration.GetConnectionString("MessageBrokerConnection");
-                            cfg.Host(cs);
-                        }
-                        else
-                        {
-                            // Cloud prod: Managed Identity (DefaultAzureCredential)
-                            cfg.Host("ecommerceazure.servicebus.windows.net", h =>
-                            {
-                                h.TokenCredential = new DefaultAzureCredential();
-                            });
-                        }
+                            h.TokenCredential = new DefaultAzureCredential();
+                        });
                         cfg.ConfigureEndpoints(context);
                     });
                 });
@@ -92,7 +80,8 @@ namespace OrderService
                 });
 
                 builder.Services.AddApplicationInsightsTelemetry();
-            };
+            }
+            ;
 
             builder.Services.AddTransient<IValidator<OrderRequest>, OrderRequestValidator>();
             builder.Services.AddScoped<IOrderProducer, OrderProducer>();
