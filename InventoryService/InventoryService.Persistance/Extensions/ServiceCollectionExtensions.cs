@@ -1,22 +1,34 @@
 ﻿using InventoryService.Business.Interfaces;
 using InventoryService.Persistance.Infrastructure;
 using InventoryService.Persistance.Repositories;
+using Microsoft.AspNetCore.Builder;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Hosting;
 
 namespace InventoryService.Persistance.Extensions
 {
     public static class ServiceCollectionExtensions
     {
-        public static IServiceCollection AddPersistance(this IServiceCollection services, IConfiguration configuration)
+        public static IServiceCollection AddPersistance(this IServiceCollection services, WebApplicationBuilder builder)
         {
             // Register AutoMapper with persistence mapping profile
             services.AddAutoMapper(typeof(PersistenceMappingProfile));
 
             // Register DbContext for SQL Server
-            services.AddDbContext<InventoryDbContext>(options =>
-                options.UseSqlServer(configuration.GetConnectionString("DefaultConnection")));
+            if (builder.Environment.IsProduction())
+            {
+                services.AddDbContext<InventoryDbContext>(options =>
+                {
+                    options.UseAzureSql(builder.Configuration.GetConnectionString("DbConnection"));
+                });
+            }
+            else
+            {
+                services.AddDbContext<InventoryDbContext>(options =>
+                    options.UseSqlServer(builder.Configuration.GetConnectionString("DbConnection")));
+            }
 
             // Register repositories
             services.AddScoped<IInventoryRepository, InventoryRepository>();
@@ -25,8 +37,8 @@ namespace InventoryService.Persistance.Extensions
             // Register MongoDB context
             services.AddSingleton(_ =>
             {
-                var connectionString = configuration.GetConnectionString("MongoDb");
-                var databaseName = configuration["MongoDb:DatabaseName"];
+                var connectionString = builder.Configuration.GetConnectionString("MongoDb");
+                var databaseName = builder.Configuration["MongoDb:DatabaseName"];
                 return new MongoDbContext(connectionString ?? throw new InvalidOperationException("MongoDb connection string is required"), 
                                         databaseName ?? throw new InvalidOperationException("MongoDb database name is required"));
             });

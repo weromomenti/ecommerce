@@ -25,6 +25,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "InventoryService.Hosting", 
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "InventoryService.Api", "InventoryService\InventoryService.Api\InventoryService.Api.csproj", "{1CB66211-752D-4CDF-861C-10F3D8D0E33B}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ChatBotService", "ChatBotService\ChatBotService.csproj", "{E03CB27C-1F25-4547-9DF7-682D6F52CF17}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -81,6 +83,14 @@ Global
 		{1CB66211-752D-4CDF-861C-10F3D8D0E33B}.Release|Any CPU.Build.0 = Release|Any CPU
 		{1CB66211-752D-4CDF-861C-10F3D8D0E33B}.Staging|Any CPU.ActiveCfg = Staging|Any CPU
 		{1CB66211-752D-4CDF-861C-10F3D8D0E33B}.Staging|Any CPU.Build.0 = Staging|Any CPU
+		{E03CB27C-1F25-4547-9DF7-682D6F52CF17}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E03CB27C-1F25-4547-9DF7-682D6F52CF17}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E03CB27C-1F25-4547-9DF7-682D6F52CF17}.Production|Any CPU.ActiveCfg = Release|Any CPU
+		{E03CB27C-1F25-4547-9DF7-682D6F52CF17}.Production|Any CPU.Build.0 = Release|Any CPU
+		{E03CB27C-1F25-4547-9DF7-682D6F52CF17}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E03CB27C-1F25-4547-9DF7-682D6F52CF17}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E03CB27C-1F25-4547-9DF7-682D6F52CF17}.Staging|Any CPU.ActiveCfg = Release|Any CPU
+		{E03CB27C-1F25-4547-9DF7-682D6F52CF17}.Staging|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

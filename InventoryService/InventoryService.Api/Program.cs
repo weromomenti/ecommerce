@@ -4,8 +4,8 @@ using InventoryService.Persistance.Extensions;
 
 var builder = WebApplication.CreateBuilder(args);
 
-builder.Services.AddPersistance(builder.Configuration);
-builder.Services.AddBusinessServices(builder.Configuration);
+builder.Services.AddPersistance(builder);
+builder.Services.AddBusinessServices(builder);
 
 // Add services to the container.
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle

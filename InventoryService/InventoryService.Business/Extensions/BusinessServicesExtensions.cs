@@ -1,5 +1,6 @@
 ﻿using InventoryService.Business.Interfaces;
 using InventoryService.Business.Services;
+using Microsoft.AspNetCore.Builder;
 using StackExchange.Redis;
 using System;
 using System.Collections.Generic;
@@ -11,12 +12,12 @@ namespace InventoryService.Business.Extensions
 {
     public static class BusinessServiceExtensions
     {
-        public static IServiceCollection AddBusinessServices(this IServiceCollection services, IConfiguration configuration)
+        public static IServiceCollection AddBusinessServices(this IServiceCollection services, WebApplicationBuilder builder)
         {
             // Register business services
             services.AddSingleton<IConnectionMultiplexer>(_ =>
             {
-                var configurationOptions = ConfigurationOptions.Parse(configuration.GetConnectionString("Redis"), true);
+                var configurationOptions = ConfigurationOptions.Parse(builder.Configuration.GetConnectionString("Redis"), true);
 
                 return ConnectionMultiplexer.Connect(configurationOptions);
             });
