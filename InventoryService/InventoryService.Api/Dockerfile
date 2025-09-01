@@ -12,18 +12,16 @@ FROM mcr.microsoft.com/dotnet/sdk:8.0 AS build
 ARG BUILD_CONFIGURATION=Release
 WORKDIR /src
 
-# Copy project files for restore (relative to InventoryService.Api directory)
-COPY ["InventoryService.Api.csproj", "InventoryService.Api/"]
-COPY ["../InventoryService.Business/InventoryService.Business.csproj", "InventoryService.Business/"]
-COPY ["../InventoryService.Persistance/InventoryService.Persistance.csproj", "InventoryService.Persistance/"]
+# Copy project files for restore (now from InventoryService directory context)
+COPY ["InventoryService.Api/InventoryService.Api.csproj", "InventoryService.Api/"]
+COPY ["InventoryService.Business/InventoryService.Business.csproj", "InventoryService.Business/"]
+COPY ["InventoryService.Persistance/InventoryService.Persistance.csproj", "InventoryService.Persistance/"]
 
 # Restore dependencies
 RUN dotnet restore "InventoryService.Api/InventoryService.Api.csproj"
 
 # Copy all source code
-COPY . ./InventoryService.Api
-COPY ../InventoryService.Business ./InventoryService.Business
-COPY ../InventoryService.Persistance ./InventoryService.Persistance
+COPY . .
 
 # Build the project
 WORKDIR "/src/InventoryService.Api"
