@@ -1,4 +1,4 @@
-name: Trigger auto deployment for inventoryservice-hosting
+name: InventoryService Worker deployment trigger
 
 # When this action will be executed
 on:
