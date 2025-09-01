@@ -1,4 +1,4 @@
-name: InventoryService Worker deployment trigger
+name: InventoryService Api deployment trigger
 
 # When this action will be executed
 on:
@@ -7,10 +7,8 @@ on:
     branches: 
       [ master ]
     paths:
-    - 'InventoryService/InventoryService.Hosting/**'
-    - 'InventoryService/InventoryService.Business/**'
-    - 'InventoryService/InventoryService.Persistance/**'
-    - '.github/workflows/inventoryservice-hosting-AutoDeploy.yml'
+    - '**'
+    - '.github/workflows/inventoryservice-AutoDeployTrigger-ba2dfac9-c5cd-4daa-80a0-70080a0fdd49.yml'
 
   # Allow manual trigger 
   workflow_dispatch:      
@@ -29,18 +27,20 @@ jobs:
       - name: Azure Login
         uses: azure/login@v2
         with:
-          client-id: ${{ secrets.AZURE_CLIENT_ID }}
-          tenant-id: ${{ secrets.AZURE_TENANT_ID }}
-          subscription-id: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
+          client-id: ${{ secrets.INVENTORYSERVICE_AZURE_CLIENT_ID }}
+          tenant-id: ${{ secrets.INVENTORYSERVICE_AZURE_TENANT_ID }}
+          subscription-id: ${{ secrets.INVENTORYSERVICE_AZURE_SUBSCRIPTION_ID }}
 
       - name: Build and push container image to registry
         uses: azure/container-apps-deploy-action@v2
         with:
-          appSourcePath: ${{ github.workspace }}/InventoryService/InventoryService.Hosting
-          dockerfilePath: Dockerfile
+          appSourcePath: ${{ github.workspace }}/InventoryService
+          dockerfilePath: InventoryService.Api/Dockerfile
           registryUrl: docker.io
           registryUsername: ${{ secrets.DOCKER_REGISTRY_USERNAME }}
           registryPassword: ${{ secrets.DOCKER_REGISTRY_PASSWORD }}
-          containerAppName: inventoryservice-hosting
+          containerAppName: inventoryservice-api
           resourceGroup: ecommerce
-          imageToBuild: tseromomenti/inventoryservice-hosting:${{ github.sha }}
+          imageToBuild: tseromomenti/inventoryservice-api:${{ github.sha }}
+
+

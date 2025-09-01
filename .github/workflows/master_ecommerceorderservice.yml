@@ -7,6 +7,8 @@ on:
   push:
     branches:
       - master
+    paths:
+      - 'InventoryService/InventoryService.Api/**'
   workflow_dispatch:
 
 jobs:
@@ -51,9 +53,9 @@ jobs:
       - name: Login to Azure
         uses: azure/login@v2
         with:
-          client-id: ${{ secrets.AZUREAPPSERVICE_CLIENTID_68EB5A67E027415F92D49B88851B1158 }}
-          tenant-id: ${{ secrets.AZUREAPPSERVICE_TENANTID_4758C96D55D24B27B1D7457FECC79CA9 }}
-          subscription-id: ${{ secrets.AZUREAPPSERVICE_SUBSCRIPTIONID_A6B37E422C2341A6AB920461C89F8402 }}
+          client-id: ${{ secrets.AZURE_CLIENT_ID }}
+          tenant-id: ${{ secrets.AZURE_TENANT_ID }}
+          subscription-id: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
 
       - name: Deploy to Azure Web App
         id: deploy-to-webapp
