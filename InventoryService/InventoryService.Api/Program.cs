@@ -1,6 +1,8 @@
 using InventoryService.Business.Extensions;
 using InventoryService.Business.Interfaces;
 using InventoryService.Persistance.Extensions;
+using InventoryService.Persistance.Infrastructure;
+using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -13,6 +15,17 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
 var app = builder.Build();
+
+using (var scope = app.Services.CreateScope())
+{
+    var dbContext = scope.ServiceProvider.GetRequiredService<InventoryDbContext>();
+    if (dbContext.Database.IsRelational())
+    {
+        dbContext.Database.Migrate();
+    }
+    InventoryDataSeeder.Seed(dbContext);
+}
+
 
 // Configure the HTTP request pipeline.
 app.UseSwagger();
