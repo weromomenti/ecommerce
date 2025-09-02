@@ -1,5 +1,5 @@
-## Runtime base (worker app, no ASP.NET)
-FROM mcr.microsoft.com/dotnet/runtime:8.0 AS base
+## Runtime base (includes Microsoft.AspNetCore.App shared framework)
+FROM mcr.microsoft.com/dotnet/aspnet:8.0 AS base
 
 ## Build stage
 FROM mcr.microsoft.com/dotnet/sdk:8.0 AS build
