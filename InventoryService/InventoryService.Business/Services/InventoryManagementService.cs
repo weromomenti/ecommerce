@@ -145,7 +145,7 @@ namespace InventoryService.Business.Services
                 ProductId = product.Id,
                 ProductName = product.ProductName,
                 Quantity = order.Quantity,
-                MovementType = EventType.Cancelled,
+                MovementType = EventType.Deleted,
                 UpdatedAt = DateTime.UtcNow,
             };
 

@@ -1,23 +1,33 @@
-# Stage 1: build
+## Runtime base (worker app, no ASP.NET)
+FROM mcr.microsoft.com/dotnet/runtime:8.0 AS base
+
+## Build stage
 FROM mcr.microsoft.com/dotnet/sdk:8.0 AS build
-WORKDIR /app
+ARG BUILD_CONFIGURATION=Release
+WORKDIR /src
 
-COPY ["/InventoryService.Hosting/InventoryService.Hosting.csproj", "InventoryService.Hosting/"]
-COPY ["/InventoryService.Business/InventoryService.Business.csproj", "InventoryService.Business/"]
-COPY ["/InventoryService.Persistance/InventoryService.Persistance.csproj", "InventoryService.Persistance/"]
+# Copy project files for restore (paths relative to the InventoryService build context)
+COPY ["InventoryService.Hosting/InventoryService.Hosting.csproj", "InventoryService.Hosting/"]
+COPY ["InventoryService.Business/InventoryService.Business.csproj", "InventoryService.Business/"]
+COPY ["InventoryService.Persistance/InventoryService.Persistance.csproj", "InventoryService.Persistance/"]
 
-RUN dotnet restore InventoryService.Hosting/InventoryService.Hosting.csproj
+RUN dotnet restore "InventoryService.Hosting/InventoryService.Hosting.csproj"
 
 # Copy all source code
-COPY . ./
+COPY . .
 
-# Build the InventoryService
-RUN dotnet publish InventoryService.Hosting/InventoryService.Hosting.csproj -c Release -o out
+# Build the project
+WORKDIR "/src/InventoryService.Hosting"
+RUN dotnet build "InventoryService.Hosting.csproj" -c $BUILD_CONFIGURATION -o /app/build
 
-# Stage 2: runtime
-FROM mcr.microsoft.com/dotnet/aspnet:8.0
-RUN apt-get update && apt-get install -y libkrb5-3
+# Publish stage
+FROM build AS publish
+ARG BUILD_CONFIGURATION=Release
+WORKDIR "/src/InventoryService.Hosting"
+RUN dotnet publish "InventoryService.Hosting.csproj" -c $BUILD_CONFIGURATION -o /app/publish /p:UseAppHost=false
+
+# Final runtime image
+FROM base AS final
 WORKDIR /app
-COPY --from=build /app/out .
-
+COPY --from=publish /app/publish .
 ENTRYPOINT ["dotnet", "InventoryService.Hosting.dll"]
