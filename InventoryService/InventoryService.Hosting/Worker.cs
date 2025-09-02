@@ -3,12 +3,11 @@ using Microsoft.Extensions.Logging;
 
 namespace InventoryService.Hosting
 {
-    public class Worker(ILogger<Worker> logger, IOrderConsumer orderConsumer) : BackgroundService
+    public class Worker(ILogger<Worker> logger) : BackgroundService
     {
         protected override Task ExecuteAsync(CancellationToken stoppingToken)
         {
             logger.LogInformation("Starting consuming");
-            orderConsumer.StartConsumingAsync();
 
             return Task.CompletedTask;
         }
