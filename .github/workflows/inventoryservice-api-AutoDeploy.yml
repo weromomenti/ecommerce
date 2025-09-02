@@ -7,8 +7,10 @@ on:
     branches: 
       [ master ]
     paths:
-    - '**'
-    - '.github/workflows/inventoryservice-AutoDeployTrigger-ba2dfac9-c5cd-4daa-80a0-70080a0fdd49.yml'
+    - 'InventoryService/InventoryService.Api/**'
+    - 'InventoryService/InventoryService.Business/**'
+    - 'InventoryService/InventoryService.Persistance/**'
+    - '.github/workflows/inventoryservice-AutoDeployTrigger.yml'
 
   # Allow manual trigger 
   workflow_dispatch:      
