@@ -9,7 +9,7 @@
         public int Quantity { get; set; }
         public DateTime CreatedAt { get; set; }
         public DateTime UpdatedAt { get; set; }
-        public MovementType  MovementType { get; set; }
+        public EventType  MovementType { get; set; }
         public Dictionary<string, object> Metadata { get; set; } = new(); // Customer info, reason, etc.
     }
 }

@@ -27,7 +27,7 @@ namespace InventoryService.Persistance.Documents
 
         [BsonElement("movementType")]
         [BsonRepresentation(BsonType.String)]
-        public MovementType MovementType { get; set; }
+        public EventType MovementType { get; set; }
 
         [BsonElement("metadata")]
         public Dictionary<string, object> Metadata { get; set; } // Customer info, reason, etc.

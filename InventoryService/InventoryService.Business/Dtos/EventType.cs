@@ -1,9 +1,9 @@
 ﻿namespace InventoryService.Business.Entities
 {
-    public enum MovementType
+    public enum EventType
     {
         Created,
         Updated,
-        Cancelled,
+        Deleted,
     }
 }

@@ -6,12 +6,13 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using MongoDB.Driver;
 
 namespace InventoryService.Persistance.Extensions
 {
     public static class ServiceCollectionExtensions
     {
-        public static IServiceCollection AddPersistance(this IServiceCollection services, WebApplicationBuilder builder)
+        public static IServiceCollection AddPersistance(this IServiceCollection services, IHostApplicationBuilder builder)
         {
             // Register AutoMapper with persistence mapping profile
             services.AddAutoMapper(typeof(PersistenceMappingProfile));
@@ -39,6 +40,14 @@ namespace InventoryService.Persistance.Extensions
             {
                 var connectionString = builder.Configuration.GetConnectionString("MongoDb");
                 var databaseName = builder.Configuration["MongoDb:DatabaseName"];
+                
+                // If database name not configured, try to extract from connection string
+                if (string.IsNullOrEmpty(databaseName) && !string.IsNullOrEmpty(connectionString))
+                {
+                    var mongoUrl = new MongoUrl(connectionString);
+                    databaseName = mongoUrl.DatabaseName;
+                }
+                
                 return new MongoDbContext(connectionString ?? throw new InvalidOperationException("MongoDb connection string is required"), 
                                         databaseName ?? throw new InvalidOperationException("MongoDb database name is required"));
             });

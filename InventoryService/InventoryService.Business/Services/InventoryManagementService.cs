@@ -59,7 +59,7 @@ namespace InventoryService.Business.Services
                 ProductId = product.Id,
                 ProductName = product.ProductName,
                 Quantity = order.Quantity,
-                MovementType = MovementType.Created,
+                MovementType = EventType.Created,
                 CreatedAt = DateTime.UtcNow,
                 UpdatedAt = DateTime.UtcNow,
             };
@@ -112,7 +112,7 @@ namespace InventoryService.Business.Services
                 ProductId = product.Id,
                 ProductName = product.ProductName,
                 Quantity = order.Quantity,
-                MovementType = MovementType.Updated,
+                MovementType = EventType.Updated,
                 UpdatedAt = DateTime.UtcNow,
             };
 
@@ -145,7 +145,7 @@ namespace InventoryService.Business.Services
                 ProductId = product.Id,
                 ProductName = product.ProductName,
                 Quantity = order.Quantity,
-                MovementType = MovementType.Cancelled,
+                MovementType = EventType.Cancelled,
                 UpdatedAt = DateTime.UtcNow,
             };
 

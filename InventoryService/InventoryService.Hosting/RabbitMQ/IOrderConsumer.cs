@@ -1,6 +1,6 @@
 namespace InventoryService.Hosting.RabbitMQ
 {
-    public interface IOrderConsumer
+    public interface IOrderConsumer : 
     {
         Task StartConsumingAsync();
     }

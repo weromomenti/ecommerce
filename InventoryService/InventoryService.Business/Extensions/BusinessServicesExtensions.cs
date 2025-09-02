@@ -12,7 +12,7 @@ namespace InventoryService.Business.Extensions
 {
     public static class BusinessServiceExtensions
     {
-        public static IServiceCollection AddBusinessServices(this IServiceCollection services, WebApplicationBuilder builder)
+        public static IServiceCollection AddBusinessServices(this IServiceCollection services, IHostApplicationBuilder builder)
         {
             // Register business services
             services.AddSingleton<IConnectionMultiplexer>(_ =>

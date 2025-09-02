@@ -2,6 +2,7 @@ using InventoryService.Business.Extensions;
 using InventoryService.Hosting.RabbitMQ;
 using InventoryService.Persistance.Extensions;
 using InventoryService.Persistance.Infrastructure;
+using MassTransit;
 using Microsoft.EntityFrameworkCore;
 using Serilog;
 
@@ -14,15 +15,23 @@ namespace InventoryService.Hosting
             var builder = Host.CreateApplicationBuilder(args);
 
             // Register business services
-            builder.Services.AddBusinessServices(builder.Configuration);
+            builder.Services.AddBusinessServices(builder);
 
-            builder.Services.AddPersistance(builder.Configuration);
-
-            builder.Services.AddSingleton<IOrderConsumer, OrderConsumer>();
+            builder.Services.AddPersistance(builder);
 
             builder.Services.AddHostedService<Worker>();
 
             builder.Logging.AddSerilog();
+
+            builder.Services.AddMassTransit(x =>
+            {
+                x.AddConsumer<OrderConsumer>();
+                x.UsingAzureServiceBus((context, cfg) =>
+                {
+                    cfg.Host(builder.Configuration.GetConnectionString("MessageBrokerConnection"));
+                    cfg.ConfigureEndpoints(context);
+                });
+            });
 
             var logger = new LoggerConfiguration()
                 .Enrich.FromLogContext()
