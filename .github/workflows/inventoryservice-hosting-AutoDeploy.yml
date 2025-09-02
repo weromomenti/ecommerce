@@ -57,8 +57,8 @@ jobs:
       - name: Build and push container image to registry
         uses: azure/container-apps-deploy-action@v2
         with:
-          appSourcePath: ${{ github.workspace }}/InventoryService/InventoryService.Hosting
-          dockerfilePath: Dockerfile
+          appSourcePath: ${{ github.workspace }}/InventoryService
+          dockerfilePath: InventoryService.Hosting/Dockerfile
           registryUrl: docker.io
           registryUsername: ${{ secrets.DOCKER_REGISTRY_USERNAME }}
           registryPassword: ${{ secrets.DOCKER_REGISTRY_PASSWORD }}
