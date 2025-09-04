@@ -1,3 +1,4 @@
+using Ecommerce.Library.Messaging;
 using InventoryService.Business.Entities;
 using InventoryService.Business.Interfaces;
 using MassTransit;

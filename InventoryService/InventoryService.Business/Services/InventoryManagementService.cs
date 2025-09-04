@@ -1,6 +1,8 @@
 ﻿using AutoMapper;
 using InventoryService.Business.Interfaces;
 using InventoryService.Business.Entities;
+using Ecommerce.Library.Dtos;
+using Ecommerce.Library.Messaging;
 
 namespace InventoryService.Business.Services
 {

@@ -17,18 +17,10 @@ namespace InventoryService.Persistance.Extensions
             services.AddAutoMapper(typeof(PersistenceMappingProfile));
 
             // Register DbContext for SQL Server
-            if (builder.Environment.IsProduction())
+            services.AddDbContext<InventoryDbContext>(options =>
             {
-                services.AddDbContext<InventoryDbContext>(options =>
-                {
-                    options.UseAzureSql(builder.Configuration.GetConnectionString("DbConnection"));
-                });
-            }
-            else
-            {
-                services.AddDbContext<InventoryDbContext>(options =>
-                    options.UseSqlServer(builder.Configuration.GetConnectionString("DbConnection")));
-            }
+                options.UseAzureSql(builder.Configuration.GetConnectionString("DbConnection"));
+            });
 
             // Register repositories
             services.AddScoped<IInventoryRepository, InventoryRepository>();
@@ -39,7 +31,7 @@ namespace InventoryService.Persistance.Extensions
             {
                 var connectionString = builder.Configuration.GetConnectionString("MongoDb");
                 var databaseName = builder.Configuration["MongoDb:DatabaseName"];
-                return new MongoDbContext(connectionString ?? throw new InvalidOperationException("MongoDb connection string is required"), 
+                return new MongoDbContext(connectionString ?? throw new InvalidOperationException("MongoDb connection string is required"),
                                         databaseName ?? throw new InvalidOperationException("MongoDb database name is required"));
             });
 

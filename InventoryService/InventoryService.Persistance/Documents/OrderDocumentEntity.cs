@@ -1,4 +1,5 @@
-﻿using InventoryService.Business.Entities;
+﻿using Ecommerce.Library.Messaging;
+using InventoryService.Business.Entities;
 using MongoDB.Bson;
 using MongoDB.Bson.Serialization.Attributes;
 

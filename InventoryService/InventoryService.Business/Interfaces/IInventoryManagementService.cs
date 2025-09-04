@@ -1,4 +1,5 @@
-﻿using InventoryService.Business.Entities;
+﻿using Ecommerce.Library.Dtos;
+using InventoryService.Business.Entities;
 
 namespace InventoryService.Business.Interfaces;
 

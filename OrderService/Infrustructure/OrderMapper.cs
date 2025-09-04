@@ -1,5 +1,5 @@
 ﻿using AutoMapper;
-using OrderService.Dtos;
+using Ecommerce.Library.Dtos;
 using OrderService.Entities;
 
 namespace OrderService.Infrustructure

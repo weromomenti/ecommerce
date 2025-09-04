@@ -1,5 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore;
-using OrderService.Dtos;
+﻿using Ecommerce.Library.Dtos;
+using Microsoft.EntityFrameworkCore;
 
 namespace OrderService.Infrustructure
 {

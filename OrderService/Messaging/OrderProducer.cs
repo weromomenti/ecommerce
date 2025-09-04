@@ -4,6 +4,7 @@ using OrderService.Interfaces;
 using OrderService.Entities;
 using MassTransit;
 using OrderService.Infrustructure;
+using Ecommerce.Library.Messaging;
 
 namespace OrderService.Messaging
 {

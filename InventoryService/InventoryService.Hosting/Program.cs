@@ -29,10 +29,6 @@ namespace InventoryService.Hosting
                 x.UsingAzureServiceBus((context, cfg) =>
                 {
                     cfg.Host(builder.Configuration.GetConnectionString("MessageBrokerConnection"));
-                    cfg.DeployTopologyOnly = false;
-
-                    cfg.Message
-
                     cfg.ReceiveEndpoint("order-queue", e =>
                     {
                         e.ConfigureConsumer<OrderConsumer>(context);

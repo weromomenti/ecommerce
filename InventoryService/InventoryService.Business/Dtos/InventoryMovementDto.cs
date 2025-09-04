@@ -1,4 +1,6 @@
-﻿namespace InventoryService.Business.Entities
+﻿using Ecommerce.Library.Messaging;
+
+namespace InventoryService.Business.Entities
 {
     public class InventoryMovementDto
     {

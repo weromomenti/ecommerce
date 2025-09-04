@@ -1,7 +1,13 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using System;
+using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 
-namespace OrderService.Dtos
+
+namespace Ecommerce.Library.Dtos
 {
     [PrimaryKey("Id")]
     public class OrderDto

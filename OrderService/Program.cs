@@ -25,60 +25,30 @@ namespace OrderService
 
             Console.WriteLine("Using environment: {0}", builder.Environment.EnvironmentName);
             Console.WriteLine("Connection Strings: DB: {0}, Messages: {1}", builder.Configuration.GetConnectionString("DbConnection"), builder.Configuration.GetConnectionString("MessageBrokerConnection"));
-            if (builder.Environment.IsDevelopment())
+
+            builder.Services.AddDbContext<OrderDbContext>(options =>
             {
-                builder.Services.AddDbContext<OrderDbContext>(options =>
-                    options.UseInMemoryDatabase("OrderDb"));
+                options.UseAzureSql(builder.Configuration.GetConnectionString("DbConnection"));
+            });
 
-                builder.Services.AddMassTransit(x =>
-                {
-                    x.UsingInMemory((context, cfg) =>
-                    {
-                        cfg.ConfigureEndpoints(context);
-                    });
-                });
-            }
-            else if (builder.Environment.IsStaging())
+            builder.Services.AddMassTransit(x =>
             {
-                builder.Services.AddDbContext<OrderDbContext>(options =>
-                    options.UseSqlServer(builder.Configuration.GetConnectionString("DbConnection")));
-
-                builder.Services.AddMassTransit(x =>
+                x.UsingAzureServiceBus((context, cfg) =>
                 {
-                    x.UsingRabbitMq((context, cfg) =>
-                    {
-                        cfg.Host(builder.Configuration.GetConnectionString("MessageBrokerConnection"));
-                        cfg.ConfigureEndpoints(context);
-                    });
+                    cfg.Host(builder.Configuration.GetConnectionString("MessageBrokerConnection"));
                 });
-            }
-            else if (builder.Environment.IsProduction())
+            });
+
+            builder.Host.UseSerilog((context, lc) =>
             {
-                builder.Services.AddDbContext<OrderDbContext>(options =>
-                {
-                    options.UseAzureSql(builder.Configuration.GetConnectionString("DbConnection"));
-                });
+                lc.ReadFrom.Configuration(context.Configuration)
+                .Enrich.FromLogContext()
+                .Enrich.WithExceptionDetails()
+                .Enrich.WithProperty("ServiceName", "OrderService")
+                .WriteTo.Console();
+            });
 
-                builder.Services.AddMassTransit(x =>
-                {
-                    x.UsingAzureServiceBus((context, cfg) =>
-                    {
-                        cfg.Host(builder.Configuration.GetConnectionString("MessageBrokerConnection"));
-                    });
-                });
-
-                builder.Host.UseSerilog((context, lc) =>
-                {
-                    lc.ReadFrom.Configuration(context.Configuration)
-                    .Enrich.FromLogContext()
-                    .Enrich.WithExceptionDetails()
-                    .Enrich.WithProperty("ServiceName", "OrderService")
-                    .WriteTo.Console();
-                });
-
-                builder.Services.AddApplicationInsightsTelemetry();
-            }
-            ;
+            builder.Services.AddApplicationInsightsTelemetry();
 
             builder.Services.AddTransient<IValidator<OrderRequest>, OrderRequestValidator>();
             builder.Services.AddScoped<IOrderProducer, OrderProducer>();
