@@ -23,7 +23,7 @@ namespace InventoryService.Business.Services
 
             var products = (await inventoryRepository.GetAllProductsAsync()).ToArray();
 
-            await cacheService.SetAsync<IEnumerable<ProductDto>>("all_products", products);
+            await cacheService.SetAsync<IEnumerable<ProductDto>>("all_products", products, TimeSpan.FromMinutes(10));
 
             return products;
         }
@@ -175,7 +175,7 @@ namespace InventoryService.Business.Services
             }
 
             await cacheService.SetAsync("all_products", 
-                await inventoryRepository.GetAllProductsAsync());
+                await inventoryRepository.GetAllProductsAsync(), expiration: TimeSpan.FromMinutes(10));
         }
 
         public Task<OrderDto> GetProductStockAsync(string productName)

@@ -81,3 +81,4 @@ C:\Users\gtsereteli\source\repos\ECommerceOrderingSystem\ApiGateway\obj\Debug\ne
 C:\Users\gtsereteli\source\repos\ECommerceOrderingSystem\ApiGateway\obj\Debug\net8.0\ApiGateway.pdb
 C:\Users\gtsereteli\source\repos\ECommerceOrderingSystem\ApiGateway\obj\Debug\net8.0\ApiGateway.genruntimeconfig.cache
 C:\Users\gtsereteli\source\repos\ECommerceOrderingSystem\ApiGateway\obj\Debug\net8.0\ref\ApiGateway.dll
+C:\Users\gtsereteli\source\repos\ECommerceOrderingSystem\ApiGateway\obj\Debug\net8.0\ApiGateway.sourcelink.json

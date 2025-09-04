@@ -7,11 +7,17 @@ using OrderService.Infrustructure;
 
 namespace OrderService.Messaging
 {
-    public class OrderProducer(IPublishEndpoint bus) : IOrderProducer
+    public class OrderProducer(ISendEndpointProvider endpointProvider) : IOrderProducer
     {
+        private const string QueueName = "orders";
+
+        private async Task<ISendEndpoint> GetQueueAsync()
+            => await endpointProvider.GetSendEndpoint(new Uri($"queue:{QueueName}"));
+
         public async Task SendOrderCreatedMessageAsync(OrderEntity order)
         {
-            await bus.Publish(new OrderContract
+            var endpoint = await GetQueueAsync();
+            await endpoint.Send(new OrderContract
             {
                 order = order.ToDto(),
                 eventType = EventType.Created
@@ -20,7 +26,8 @@ namespace OrderService.Messaging
 
         public async Task SendOrderUpdatedMessageAsync(OrderEntity order)
         {
-            await bus.Publish(new OrderContract
+            var endpoint = await GetQueueAsync();
+            await endpoint.Send(new OrderContract
             {
                 order = order.ToDto(),
                 eventType = EventType.Updated
@@ -29,7 +36,8 @@ namespace OrderService.Messaging
 
         public async Task SendOrderDeletedMessageAsync(OrderEntity order)
         {
-            await bus.Publish(new OrderContract
+            var endpoint = await GetQueueAsync();
+            await endpoint.Send(new OrderContract
             {
                 order = order.ToDto(),
                 eventType = EventType.Deleted
