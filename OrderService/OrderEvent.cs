@@ -1,4 +1,5 @@
-﻿using OrderService.Entities;
+﻿using Ecommerce.Library.Messaging;
+using OrderService.Entities;
 
 namespace OrderService
 {

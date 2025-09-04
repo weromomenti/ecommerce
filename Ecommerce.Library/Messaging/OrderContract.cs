@@ -2,10 +2,17 @@
 
 namespace Ecommerce.Library.Messaging
 {
-    public class OrderContract
+    public record OrderContract
     {
-        public OrderDto order;
+        public OrderContract() { }
+        
+        public OrderContract(OrderDto order, EventType eventType)
+        {
+            this.order = order;
+            this.eventType = eventType;
+        }
 
-        public EventType eventType;
+        public OrderDto order { get; set; } = null!;
+        public EventType eventType { get; set; }
     }
 }

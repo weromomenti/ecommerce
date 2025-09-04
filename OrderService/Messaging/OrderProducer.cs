@@ -1,6 +1,4 @@
-﻿using System.Text;
-using System.Text.Json;
-using OrderService.Interfaces;
+﻿using OrderService.Interfaces;
 using OrderService.Entities;
 using MassTransit;
 using OrderService.Infrustructure;
