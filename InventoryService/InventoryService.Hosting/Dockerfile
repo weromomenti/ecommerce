@@ -12,7 +12,7 @@ COPY ["InventoryService/InventoryService.Business/InventoryService.Business.cspr
 COPY ["InventoryService/InventoryService.Persistance/InventoryService.Persistance.csproj", "InventoryService.Persistance/"]
 COPY ["Ecommerce.Library/Ecommerce.Library.csproj", "Ecommerce.Library/"]
 
-RUN dotnet restore "InventoryService/InventoryService.Hosting/InventoryService.Hosting.csproj"
+RUN dotnet restore "InventoryService.Hosting/InventoryService.Hosting.csproj"
 
 # Copy all source code
 COPY . .
