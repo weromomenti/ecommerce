@@ -10,6 +10,7 @@ WORKDIR /src
 COPY ["InventoryService.Hosting/InventoryService.Hosting.csproj", "InventoryService.Hosting/"]
 COPY ["InventoryService.Business/InventoryService.Business.csproj", "InventoryService.Business/"]
 COPY ["InventoryService.Persistance/InventoryService.Persistance.csproj", "InventoryService.Persistance/"]
+COPY ["../Ecommerce.Library/Ecommerce.Library.csproj", "Ecommerce.Library/"]
 
 RUN dotnet restore "InventoryService.Hosting/InventoryService.Hosting.csproj"
 
