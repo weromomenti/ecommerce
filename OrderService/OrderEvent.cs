@@ -1,0 +1,13 @@
+﻿using OrderService.Entities;
+
+namespace OrderService
+{
+    public class OrderEvent
+    {
+        public EventType EventType { get; set; }
+        public int OrderId { get; set; }
+        public string ProductName { get; set; }
+        public int Quantity { get; set; }
+        public DateTime Timestamp { get; set; }
+    }
+}

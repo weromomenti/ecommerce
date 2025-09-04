@@ -1,0 +1,67 @@
+name: InventoryService Worker deployment trigger
+
+# When this action will be executed
+on:
+  # Automatically trigger it when detected changes in repo
+  push:
+    branches: 
+      [ master ]
+    paths:
+    - 'InventoryService/InventoryService.Hosting/**'
+    - 'InventoryService/InventoryService.Business/**'
+    - 'InventoryService/InventoryService.Persistance/**'
+    - '.github/workflows/inventoryservice-hosting-AutoDeploy.yml'
+
+  # Allow manual trigger 
+  workflow_dispatch:      
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+    permissions:
+      id-token: write
+      contents: read
+
+    steps:
+      - uses: actions/checkout@v4
+
+      # 0) Fail fast if any secret is missing (no values printed)
+      - name: Validate OIDC inputs
+        run: |
+          test -n "${{ secrets.AZURE_CLIENT_ID }}"       || (echo "AZURE_CLIENT_ID missing" && exit 1)
+          test -n "${{ secrets.AZURE_TENANT_ID }}"       || (echo "AZURE_TENANT_ID missing" && exit 1)
+          test -n "${{ secrets.AZURE_SUBSCRIPTION_ID }}" || (echo "AZURE_SUBSCRIPTION_ID missing" && exit 1)
+
+      # 1) Make sure GitHub actually gave this job an OIDC token
+      - name: Check OIDC availability
+        run: |
+          [ -n "${ACTIONS_ID_TOKEN_REQUEST_URL}" ] && echo "OIDC URL present" || (echo "OIDC URL MISSING" && exit 1)
+          [ -n "${ACTIONS_ID_TOKEN_REQUEST_TOKEN}" ] && echo "OIDC TOKEN present" || (echo "OIDC TOKEN MISSING" && exit 1)
+
+      # 2) Azure login via OIDC (DO NOT set auth-type / client-secret / creds)
+      - name: Azure Login (OIDC)
+        uses: azure/login@v2
+        with:
+          client-id: ${{ secrets.AZURE_CLIENT_ID }}
+          tenant-id: ${{ secrets.AZURE_TENANT_ID }}
+          subscription-id: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
+          environment: azurecloud
+          audience: api://AzureADTokenExchange
+          enable-AzPSSession: false
+
+      # 3) Prove we're logged in
+      - name: Who am I
+        run: az account show -o table
+
+      # 4) Your deploy (unchanged)
+      - name: Build and push container image to registry
+        uses: azure/container-apps-deploy-action@v2
+        with:
+          appSourcePath: ${{ github.workspace }}/InventoryService
+          dockerfilePath: InventoryService.Hosting/Dockerfile
+          registryUrl: docker.io
+          registryUsername: ${{ secrets.DOCKER_REGISTRY_USERNAME }}
+          registryPassword: ${{ secrets.DOCKER_REGISTRY_PASSWORD }}
+          containerAppName: inventoryservice-hosting
+          resourceGroup: ecommerce
+          imageToBuild: tseromomenti/inventoryservice-hosting:${{ github.sha }}
