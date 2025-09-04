@@ -14,13 +14,6 @@ namespace InventoryService.Business.Extensions
     {
         public static IServiceCollection AddBusinessServices(this IServiceCollection services, IHostApplicationBuilder builder)
         {
-            // Register business services
-            services.AddSingleton<IConnectionMultiplexer>(_ =>
-            {
-                var configurationOptions = ConfigurationOptions.Parse(builder.Configuration.GetConnectionString("Redis"), true);
-
-                return ConnectionMultiplexer.Connect(configurationOptions);
-            });
             services.AddScoped<IInventoryManagementService, InventoryManagementService>();
 
             return services;
