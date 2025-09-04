@@ -7,23 +7,11 @@ namespace InventoryService.Business.Services
     public class InventoryManagementService(
         IInventoryRepository inventoryRepository,
         IDocumentRepository documentRepository,
-        ICacheService cacheService,
         ILogger<InventoryManagementService> logger) : IInventoryManagementService
     {
         public async Task<IEnumerable<ProductDto>> GetAllProductsAsync()
         {
-            // Check cache first
-            var cachedProducts = await cacheService.GetAsync<IEnumerable<ProductDto>>("all_products");
-
-            if (cachedProducts != null)
-            {
-                logger.LogInformation("Retrieved products from cache");
-                return cachedProducts;
-            }
-
             var products = (await inventoryRepository.GetAllProductsAsync()).ToArray();
-
-            await cacheService.SetAsync<IEnumerable<ProductDto>>("all_products", products, TimeSpan.FromMinutes(10));
 
             return products;
         }
@@ -173,9 +161,6 @@ namespace InventoryService.Business.Services
                 product.AvailableStock += quantity;
                 await inventoryRepository.UpdateProductAsync(product);
             }
-
-            await cacheService.SetAsync("all_products", 
-                await inventoryRepository.GetAllProductsAsync(), expiration: TimeSpan.FromMinutes(10));
         }
 
         public Task<OrderDto> GetProductStockAsync(string productName)

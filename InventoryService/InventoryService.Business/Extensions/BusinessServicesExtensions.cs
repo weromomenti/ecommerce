@@ -22,7 +22,6 @@ namespace InventoryService.Business.Extensions
                 return ConnectionMultiplexer.Connect(configurationOptions);
             });
             services.AddScoped<IInventoryManagementService, InventoryManagementService>();
-            services.AddScoped<ICacheService, RedisCacheService>();
 
             return services;
         }
