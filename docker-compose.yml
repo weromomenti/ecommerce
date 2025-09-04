@@ -83,8 +83,8 @@ services:
   # application services
   orderservice:
     build:
-      context: ./OrderService
-      dockerfile: /Dockerfile
+      context: .
+      dockerfile: ./OrderService/Dockerfile
     container_name: orderservice
     ports:
       - "8080:8080"
@@ -103,8 +103,8 @@ services:
 
   inventoryservice_api:
     build:
-      context: ./InventoryService
-      dockerfile: /InventoryService.Api/Dockerfile
+      context: .
+      dockerfile: ./InventoryService/InventoryService.Api/Dockerfile
     container_name: inventoryservice_api
     ports:
       - "8082:8080"
@@ -124,8 +124,8 @@ services:
 
   inventoryservice_worker:
     build:
-      context: ./InventoryService
-      dockerfile: /InventoryService.Hosting/Dockerfile
+      context: .
+      dockerfile: ./InventoryService/InventoryService.Hosting/Dockerfile
     container_name: inventoryservice_worker
     environment:
       - DOTNET_ENVIRONMENT=Release

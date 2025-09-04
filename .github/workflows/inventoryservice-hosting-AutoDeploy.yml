@@ -10,6 +10,7 @@ on:
     - 'InventoryService/InventoryService.Hosting/**'
     - 'InventoryService/InventoryService.Business/**'
     - 'InventoryService/InventoryService.Persistance/**'
+    - 'Ecommerce.Library/**'
     - '.github/workflows/inventoryservice-hosting-AutoDeploy.yml'
 
   # Allow manual trigger 
@@ -57,8 +58,8 @@ jobs:
       - name: Build and push container image to registry
         uses: azure/container-apps-deploy-action@v2
         with:
-          appSourcePath: ${{ github.workspace }}/InventoryService
-          dockerfilePath: InventoryService.Hosting/Dockerfile
+          appSourcePath: ${{ github.workspace }}
+          dockerfilePath: InventoryService/InventoryService.Hosting/Dockerfile
           registryUrl: docker.io
           registryUsername: ${{ secrets.DOCKER_REGISTRY_USERNAME }}
           registryPassword: ${{ secrets.DOCKER_REGISTRY_PASSWORD }}

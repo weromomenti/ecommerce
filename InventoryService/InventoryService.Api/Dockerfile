@@ -12,11 +12,11 @@ FROM mcr.microsoft.com/dotnet/sdk:8.0 AS build
 ARG BUILD_CONFIGURATION=Release
 WORKDIR /src
 
-# Copy project files for restore (now from InventoryService directory context)
-COPY ["InventoryService.Api/InventoryService.Api.csproj", "InventoryService.Api/"]
-COPY ["InventoryService.Business/InventoryService.Business.csproj", "InventoryService.Business/"]
-COPY ["InventoryService.Persistance/InventoryService.Persistance.csproj", "InventoryService.Persistance/"]
-COPY ["../Ecommerce.Library/Ecommerce.Library.csproj", "Ecommerce.Library/"]
+# Copy project files for restore (now from solution root context)
+COPY ["InventoryService/InventoryService.Api/InventoryService.Api.csproj", "InventoryService.Api/"]
+COPY ["InventoryService/InventoryService.Business/InventoryService.Business.csproj", "InventoryService.Business/"]
+COPY ["InventoryService/InventoryService.Persistance/InventoryService.Persistance.csproj", "InventoryService.Persistance/"]
+COPY ["Ecommerce.Library/Ecommerce.Library.csproj", "Ecommerce.Library/"]
 
 # Restore dependencies
 RUN dotnet restore "InventoryService.Api/InventoryService.Api.csproj"
@@ -25,12 +25,13 @@ RUN dotnet restore "InventoryService.Api/InventoryService.Api.csproj"
 COPY . .
 
 # Build the project
-WORKDIR "/src/InventoryService.Api"
+WORKDIR "/src/InventoryService/InventoryService.Api"
 RUN dotnet build "InventoryService.Api.csproj" -c $BUILD_CONFIGURATION -o /app/build
 
 # This stage is used to publish the service project to be copied to the final stage
 FROM build AS publish
 ARG BUILD_CONFIGURATION=Release
+WORKDIR "/src/InventoryService/InventoryService.Api"
 RUN dotnet publish "InventoryService.Api.csproj" -c $BUILD_CONFIGURATION -o /app/publish /p:UseAppHost=false
 
 # This stage is used in production or when running from VS in regular mode (Default when not using the Debug configuration)
