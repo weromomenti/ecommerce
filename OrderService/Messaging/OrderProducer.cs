@@ -9,7 +9,7 @@ namespace OrderService.Messaging
 {
     public class OrderProducer(ISendEndpointProvider endpointProvider) : IOrderProducer
     {
-        private const string QueueName = "orders";
+        private const string QueueName = "order-queue";
 
         private async Task<ISendEndpoint> GetQueueAsync()
             => await endpointProvider.GetSendEndpoint(new Uri($"queue:{QueueName}"));
